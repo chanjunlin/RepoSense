@@ -41,6 +41,7 @@ public class CliArguments {
     private boolean isPortfolio;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
     private boolean isOnlyTextRefreshed;
+    private boolean isPrettyPrintingUsed;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -194,6 +195,9 @@ public class CliArguments {
         return isAuthorshipAnalyzed;
     }
 
+    public boolean isPrettyPrintingUsed() {
+        return isPrettyPrintingUsed;
+    }
     public double getOriginalityThreshold() {
         return originalityThreshold;
     }
@@ -549,6 +553,17 @@ public class CliArguments {
          */
         public Builder isOnlyTextRefreshed(boolean isOnlyTextRefreshed) {
             this.cliArguments.isOnlyTextRefreshed = isOnlyTextRefreshed;
+            return this;
+        }
+
+        /**
+         * This is a test.
+         *
+         * @param isPrettyPrintingUsed test.
+         * @return test
+         */
+        public Builder isPrettyPrintingUsed(boolean isPrettyPrintingUsed) {
+            this.cliArguments.isPrettyPrintingUsed = isPrettyPrintingUsed;
             return this;
         }
 

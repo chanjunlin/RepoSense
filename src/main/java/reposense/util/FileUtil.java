@@ -47,6 +47,7 @@ public class FileUtil {
 
     // zip file which contains all the specified file types
     public static final String ZIP_FILE = "archive.zip";
+    private static boolean isPrettyPrintingUsed = false;
 
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
@@ -107,11 +108,17 @@ public class FileUtil {
      * was an error while writing the JSON file.
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
-        Gson gson = new GsonBuilder()
+        GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeHierarchyAdapter(LocalDateTime.class, new DateSerializer())
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-                .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer())
-                .create();
+                .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer());
+
+        Gson gson;
+        if (isPrettyPrintingUsed) {
+            gson = gsonBuilder.setPrettyPrinting().create();
+        } else {
+            gson = gsonBuilder.create();
+        }
 
         // Gson serializer from:
         // https://stackoverflow.com/questions/39192945/serialize-java-8-localdate-as-yyyy-mm-dd-with-gson
@@ -442,5 +449,13 @@ public class FileUtil {
         zipFoldersAndFiles(pathsToZip, sourceAndOutputPath, fileTypes);
     }
 
+    /**
+     * This is a test.
+     *
+     * @param isPrettyPrintingAdopted test.
+     */
+    public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
+        isPrettyPrintingUsed = isPrettyPrintingAdopted;
+    }
 
 }
